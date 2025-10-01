@@ -1,6 +1,10 @@
 from src.carga_datos import cargar_datos
 import pandas as pd
 
+def data_frame():
+    df = cargar_datos()
+    return df
+
 def promedio():
     df = cargar_datos()
     media = df["Edad"].mean()
@@ -11,5 +15,7 @@ def desviacion():
     desv = df["Edad"].std()
     return desv
 
-print(promedio())
-print(desviacion())
+def zona_geografica():
+    df = cargar_datos()
+    municipio = df["Nombre municipio"].value_counts().to_dict()
+    return municipio
