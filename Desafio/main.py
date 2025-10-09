@@ -9,14 +9,16 @@ global estado
 
 def menu():
     global estado
-    print(Fore.CYAN + "\n" + "="*40)
-    print(Fore.YELLOW + "        📊  MENÚ PRINCIPAL  📊")
-    print(Fore.CYAN + "="*40 + Style.RESET_ALL)
+    print(Fore.CYAN + "\n" + "="*50)
+    print(Fore.YELLOW + "             📊  MENÚ PRINCIPAL  📊")
+    print(Fore.CYAN + "="*50 + Style.RESET_ALL)
     print(Fore.GREEN + "1." + Style.RESET_ALL + " Calcular Promedio y Desviación")
     print(Fore.GREEN + "2." + Style.RESET_ALL + " Cantidad de Casos por Zona Geográfica")
-    print(Fore.GREEN + "3." + Style.RESET_ALL + " Crear Gráficos")
+    print(Fore.GREEN + "3." + Style.RESET_ALL + " Municipios con Casos Mayor al Promedio")
+    print(Fore.GREEN + "4." + Style.RESET_ALL + " Fechas de Recuperacion y Casos de Fallecimiento")
+    print(Fore.GREEN + "5." + Style.RESET_ALL + " Crear Gráficos")
     print(Fore.RED   + "0." + Style.RESET_ALL + " Salir")
-    print(Fore.CYAN + "="*40 + Style.RESET_ALL)
+    print(Fore.CYAN + "="*50 + Style.RESET_ALL)
 
 def main():
     global estado
@@ -33,8 +35,13 @@ def main():
                     estado = "opcion_2"
                 elif dato == "3":
                     estado = "opcion_3"
-                elif dato == "0":
+                elif dato == "4":
                     estado = "opcion_4"
+                elif dato == "5":
+                    estado = "opcion_5"
+                elif dato == "0":
+                    estado = "opcion_0"
+
                 else:
                     utilidades.limpiar_consola()
                     print(Fore.RED + "Valor Ingresado No Existe"+Style.RESET_ALL)
@@ -76,7 +83,11 @@ def main():
                 input(Fore.YELLOW + "\n👉 Presiona ENTER para volver al menú..." + Style.RESET_ALL)
                 estado = "menu"
 
-            case "opcion_4":
+            case "opcion_3":
+                utilidades.limpiar_consola()
+                
+
+            case "opcion_0":
                 utilidades.limpiar_consola()
                 exit()
                     

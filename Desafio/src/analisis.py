@@ -19,3 +19,16 @@ def zona_geografica():
     df = cargar_datos()
     municipio = df["Nombre municipio"].value_counts().to_dict()
     return municipio
+
+def mayor_promedio():
+    diccionario = zona_geografica()
+    cantidad = []
+    for indice,valor in diccionario.items():
+        cantidad.append(valor)
+    promedio = sum(cantidad)/len(cantidad)
+    municipios = {}
+    for indice,valor in diccionario.items():
+        if valor > promedio:
+            municipios[indice] = valor
+    return [promedio,municipios]
+    
