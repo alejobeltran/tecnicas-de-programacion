@@ -31,4 +31,12 @@ def mayor_promedio():
         if valor > promedio:
             municipios[indice] = valor
     return [promedio,municipios]
-    
+
+def recuperacion():
+    df = cargar_datos()
+    fechas = df["Fecha de recuperación"]
+    df["Fecha de recuperación"] = pd.to_datetime(df["Fecha de recuperación"],errors="coerce")
+    recuperados_2020 = df[df["Fecha de recuperación"].dt.year == 2020]
+    recuperados_2021 = df[df["Fecha de recuperación"].dt.year == 2021]
+    fallecidos = df[df["Fecha de recuperación"].isna()]
+    return [recuperados_2020,recuperados_2021,fallecidos]

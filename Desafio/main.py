@@ -1,6 +1,7 @@
 from colorama import Fore, Style, init
 from src import utilidades
 from src import analisis
+from src import graficas
 import time
 import os
 import sys
@@ -85,8 +86,98 @@ def main():
 
             case "opcion_3":
                 utilidades.limpiar_consola()
-                
+                promedio, municipios = analisis.mayor_promedio()
+                print(Fore.CYAN + "\n🏙️  Municipios con casos por encima del promedio" + Style.RESET_ALL)
+                print(Fore.BLUE + "-"*65 + Style.RESET_ALL)
+                print(f"📊 Promedio general de casos por municipio: {Fore.YELLOW}{promedio:.2f}{Style.RESET_ALL}\n")
+                print(Fore.YELLOW + f"{'Municipio':<25}{'Casos':>10}" + Style.RESET_ALL)
+                print(Fore.BLUE + "-"*65 + Style.RESET_ALL)
 
+                for nombre, cantidad in municipios.items():
+                    print(f"{nombre:<25}{cantidad:>10}")
+
+                print(Fore.BLUE + "-"*65 + Style.RESET_ALL)
+                print(f"👉 {Fore.GREEN}Estos municipios superan el promedio nacional de casos registrados.{Style.RESET_ALL}")
+
+                input(Fore.YELLOW + "\nPresiona ENTER para volver al menú..." + Style.RESET_ALL)
+                input()
+                estado = "menu"
+                
+            case "opcion_4":
+                utilidades.limpiar_consola()
+                rec_2020, rec_2021, fallecidos = analisis.recuperacion()
+                total_2020 = len(rec_2020)
+                total_2021 = len(rec_2021)
+                total_fallecidos = len(fallecidos)
+                total_casos = total_2020 + total_2021 + total_fallecidos
+
+                # evitar división por cero
+                if total_casos > 0:
+                    porc_2020 = (total_2020 / total_casos) * 100
+                    porc_2021 = (total_2021 / total_casos) * 100
+                    porc_fallecidos = (total_fallecidos / total_casos) * 100
+                else:
+                    porc_2020 = porc_2021 = porc_fallecidos = 0.0
+
+                # Definir anchos (ajusta si quieres columnas más estrechas/anchas)
+                col1 = 30   # ancho para la etiqueta (Año / Tipo)
+                col2 = 10   # ancho para 'Casos'
+                col3 = 12   # ancho para 'Porcentaje' (sin el %)
+
+                print(Fore.CYAN + "\n🩺 Análisis de Recuperaciones y Fallecimientos" + Style.RESET_ALL)
+                print(Fore.BLUE + "-"*(col1 + col2 + col3) + Style.RESET_ALL)
+
+                # Encabezado con los mismos anchos
+                header = f"{'Año / Tipo':<{col1}}{'Casos':>{col2}}{'Porcentaje':>{col3}}"
+                print(header)
+                print(Fore.BLUE + "-"*(col1 + col2 + col3) + Style.RESET_ALL)
+
+                # Filas con alineación: etiqueta izquierda, casos derecha, porcentaje derecha (y añadimos '%' al final)
+                print(f"{Fore.YELLOW}{'Recuperados 2020':<{col1}}{total_2020:>{col2}}{porc_2020:>{col3 - 1}.2f}%{Style.RESET_ALL}")
+                print(f"{Fore.YELLOW}{'Recuperados 2021':<{col1}}{total_2021:>{col2}}{porc_2021:>{col3 - 1}.2f}%{Style.RESET_ALL}")
+                print(f"{Fore.RED   }{'Fallecidos':<{col1}}{total_fallecidos:>{col2}}{porc_fallecidos:>{col3 - 1}.2f}%{Style.RESET_ALL}")
+
+                print(Fore.BLUE + "-"*(col1 + col2 + col3) + Style.RESET_ALL)
+
+                # Interpretación breve
+                print("📈 Interpretación breve:")
+                print(f"   • Total casos considerados: {total_casos}")
+                print("   • Los registros sin fecha de recuperación se consideran fallecimientos según la regla del dataset.\n")
+
+                input(Fore.YELLOW + "👉 Presiona ENTER para volver al menú..." + Style.RESET_ALL)
+
+                estado = "menu"
+            case "opcion_5":
+                utilidades.limpiar_consola()
+                print(Fore.CYAN + "\n📊 MENÚ DE GRÁFICOS" + Style.RESET_ALL)
+                print(Fore.BLUE + "-"*45 + Style.RESET_ALL)
+                print("1. Histograma de la distribución de edades")
+                print("2. Gráfico de barras (por sexo, municipio)")
+                print("3. Gráfico de dispersión entre dos variables")
+                print("0. Volver al menú principal")
+                print(Fore.BLUE + "-"*45 + Style.RESET_ALL)
+                
+                opcion = input(Fore.YELLOW + "Seleccione una opción: " + Style.RESET_ALL)
+                
+                if opcion == "1":
+                    graficas.histograma()
+                    input(Fore.YELLOW + "\nPresiona ENTER para continuar..." + Style.RESET_ALL)
+                
+                elif opcion == "2":
+                    graficas.barras()
+                    input(Fore.YELLOW + "\nPresiona ENTER para continuar..." + Style.RESET_ALL)
+                
+                elif opcion == "3":
+                    graficas.dispersion()
+                    input(Fore.YELLOW + "\nPresiona ENTER para continuar..." + Style.RESET_ALL)
+                
+                elif opcion == "0":
+                    estado = "menu"
+                
+                else:
+                    print(Fore.RED + "❌ Opción no válida, intenta nuevamente." + Style.RESET_ALL)
+                    input(Fore.YELLOW + "\nPresiona ENTER para continuar..." + Style.RESET_ALL)
+                        
             case "opcion_0":
                 utilidades.limpiar_consola()
                 exit()
